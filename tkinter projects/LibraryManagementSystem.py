@@ -1,8 +1,9 @@
 import sqlite3 as sql
 from tkinter import *
 from tkinter import ttk
-from tkinter.messagebox import showinfo, showerror, showwarning
+from tkinter.messagebox import showinfo, showerror, showwarning, askokcancel, WARNING
 from datetime import datetime
+from qrcode import make
 
 
 class App(Tk):
@@ -170,10 +171,16 @@ class App(Tk):
     def student_panel(self):
         def search():
             find = str(self.search.get())
-            with sql.connect('library.db') as database:
-                query = database.cursor()
-                query.execute("SELECT book_id, book_name FROM books WHERE book_name = ?", (find,))
-                books = query.fetchall()
+            if find != "":
+                with sql.connect('library.db') as database:
+                    query = database.cursor()
+                    query.execute("SELECT book_id, book_name FROM books WHERE book_name = ?", (find,))
+                    books = query.fetchall()
+            else:
+                with sql.connect('library.db') as database:
+                    query = database.cursor()
+                    query.execute("SELECT book_id, book_name FROM books;")
+                    books = query.fetchall()
 
             self.list_of_books.delete(0, END)
             for book in books:
@@ -193,6 +200,9 @@ class App(Tk):
         
         def issue_book():
             selected = self.list_of_books.curselection()
+            if not selected:
+                showinfo(title='Information', message='None books selected')
+                return
             selected_book = self.list_of_books.get(selected[0])
             with sql.connect('library.db') as database:
                 query = database.cursor()
@@ -202,11 +212,32 @@ class App(Tk):
 
         def return_book():
             selected = self.book_that_home.curselection()
+            if not selected:
+                showinfo(title='Information', message='No books selected')
+                return
             selectedBook = self.book_that_home.get(selected[0])
+            book_id = int(selectedBook.split()[0])
+
             with sql.connect('library.db') as database:
                 query = database.cursor()
-                query.execute("DELETE FROM student_book WHERE id = ?", (int(selectedBook[0]),))
-            
+                query.execute("SELECT date FROM student_book WHERE id = ?", (book_id,))
+                got = query.fetchone()
+                if got and got[0]:
+                    booked_date = datetime.strptime(got[0], "%Y-%m-%d")
+                    differenceInDays = datetime.now() - booked_date
+                    difference = differenceInDays.days
+                    if difference >= 9:
+                        amount = 50 * (difference - 9)
+                        answer = askokcancel(title="Alert", message=f'You have to pay a fine of {amount} for late return', icon=WARNING)
+                        if answer:
+                            data = f'upi://pay?pa=sumit2003dubey@ibl&pn=Library fee&am={amount}&tn=Fine for late return'
+                            qrCode = make(data)
+                            qrCode.show()
+                        else:
+                            return
+                    query.execute("DELETE FROM student_book WHERE id = ?", (book_id,))
+                    database.commit()
+                showinfo(title='Information', message='Book returned successfully')
             issued_books()
 
         self.__everytime__()
@@ -215,14 +246,14 @@ class App(Tk):
 
         self.student_leftFrame = Frame(self, background='#333333')
         ttk.Label(self.student_leftFrame, text='Books that you have -', background='#333333', foreground='white', font=['Leelawadee UI', 13]).grid(row=0, column=0, sticky=W, pady=8)
-        self.book_that_home = Listbox(self.student_leftFrame, width=45, height=10, bg='#343a40', font=['Gadugi', 10, 'bold'], foreground='white')
+        self.book_that_home = Listbox(self.student_leftFrame, width=45, height=10, bg='#333333', font=['Gadugi', 10, 'bold'], foreground='white')
         self.book_that_home.grid(row=1, column=0, columnspan=4, sticky=W)
 
         self.take_book = Button(self.student_leftFrame, text='Issue Book', command=issue_book, background='#333333', foreground='white')
         self.give_book = Button(self.student_leftFrame, text='Return book', command=return_book, background='#333333', foreground='white')
         self.take_book.grid(row=2, column=0, sticky=W, pady=6)
         self.give_book.grid(row=2, column=1, sticky=W, pady=6)
-        self.info = ttk.Label(self.student_leftFrame, text='Note: \n There will be Fine of 100 rs per day \n \t In case of late return', font=['Microsoft Sans Serif', 14], foreground='white', background='#333333')
+        self.info = ttk.Label(self.student_leftFrame, text='Note: \n There will be Fine of 50 rs per day \n \t In case of late return', font=['Microsoft Sans Serif', 14], foreground='white', background='#333333')
         self.info.grid(row=3, column=0, sticky=W, pady=10, padx=10, columnspan=4)
         self.student_leftFrame.pack(side=LEFT, anchor=NW, pady=25, padx=30)
 
@@ -232,7 +263,7 @@ class App(Tk):
         self.search_button = Button(self.student_rightFrame, text='Search', command=search, foreground='white', background='#333333')
         self.search_button.grid(row=0, column=1, padx=2, sticky=E)
         ttk.Label(self.student_rightFrame, text='Books in Library -', background='#333333', foreground='white', font=['Leelawadee UI', 13]).grid(row=1, column=0, sticky=W, pady=8)
-        self.list_of_books = Listbox(self.student_rightFrame, width=30, bg='#343a40', font=['Verdana', 10, 'bold'], foreground='white')
+        self.list_of_books = Listbox(self.student_rightFrame, width=30, bg='#333333', font=['Verdana', 10, 'bold'], foreground='white')
         self.list_of_books.grid(row=2, column=0, columnspan=4, padx=10, pady=5)
         self.student_rightFrame.pack(side=RIGHT, anchor=NE, pady=10, padx=10)
 
@@ -303,7 +334,7 @@ class App(Tk):
 
             with sql.connect('library.db') as database:
                 query = database.cursor()
-                query.execute("DELETE FROM books WHERE book_id = ?", (int(book_id)))
+                query.execute("DELETE FROM books WHERE book_id = ?", (int(book_id),))
 
             load_products()
 
