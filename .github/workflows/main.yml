@@ -1,0 +1,31 @@
+name: Email Sender Automation
+
+on:
+  schedule:
+    - cron: '* * * * *'  # This runs the script every day at 8:00 AM (UTC)
+
+jobs:
+  run-email-sender:
+    runs-on: ubuntu-latest  # Uses Ubuntu as the environment
+
+    steps:
+      # Step 1: Checkout the repository to access your code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 2: Set up Python environment
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'  # Specify the version of Python to use
+
+      # Step 3: Install BeautifulSoup directly
+      - name: Install BeautifulSoup
+        run: |
+          python -m pip install --upgrade pip
+          pip install beautifulsoup4  # Directly install the BeautifulSoup package
+
+      # Step 4: Run the Email Sender script
+      - name: Run HackerNewEmail.py
+        run: |
+          python Automation_%26_WebScrapping/HackerNewEmail.py
