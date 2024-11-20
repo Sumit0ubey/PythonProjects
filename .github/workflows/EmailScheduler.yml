@@ -23,9 +23,13 @@ jobs:
       - name: Install BeautifulSoup
         run: |
           python -m pip install --upgrade pip
-          pip install beautifulsoup4 requests
+          pip install beautifulsoup4 requests dotenv
   
         # Step 4: Run the Email Sender script
       - name: Run HackerNewEmail.py
         run: |
           python Automation_%26_WebScrapping/HackerNewEmail.py
+        env:
+          TOEMAIL: ${{ secrets.TOEMAIL }}
+          FROMEMAIL: ${{ secrets.FROMEMAIL }}
+          PASSWORD: ${{ secrets.PASSWORD }}
