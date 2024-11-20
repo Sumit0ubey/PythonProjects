@@ -2,7 +2,7 @@ name: Email Sender Automation
 
 on:
   schedule:
-    - cron: '* * * * *'  # This runs the script every day at 8:00 AM (UTC)
+    - cron: '0 8 * * *'  # This runs the script every day at 8:00 AM (UTC)
 
 jobs:
   run-email-sender:
