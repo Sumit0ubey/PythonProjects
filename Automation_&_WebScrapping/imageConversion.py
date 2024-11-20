@@ -1,4 +1,4 @@
-from PIL import Image # type: ignore
+from PIL import Image
 from os.path import basename
 import glob
 
