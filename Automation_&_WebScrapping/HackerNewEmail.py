@@ -1,16 +1,22 @@
+import os
 import requests
 import smtplib
 from bs4 import BeautifulSoup
+from dotenv import load_dotenv
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import datetime as dt
 
+load_dotenv()
+email1 = os.getenv('FROMEMAIL')
+email2 = os.getenv('TOEMAIL')
+password = os.getenv('PASSWORD')
 
 SERVER = 'smtp.gmail.com'
 PORT = 587
-FROM = 'automatic634suriko@gmail.com'
+FROM = email1
 TO = 'dubeysumit378@gmail.com'
-PASS ='utfambvyhhxiuvuy'
+PASS = password
 
 def extract_news(url: str) -> str:
     Emailcontent = ''
