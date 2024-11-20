@@ -27,3 +27,4 @@ def Typeconversion(filePath, FromType:str, ToType:str, quality:int=90):
 
 # Typeconversion(filePath=r"C:\image\imagetrans", FromType='jpg', ToType='png')
 
+# Work is still going. There will be more features here
