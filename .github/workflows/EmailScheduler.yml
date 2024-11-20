@@ -23,9 +23,9 @@ jobs:
       - name: Install BeautifulSoup
         run: |
           python -m pip install --upgrade pip
-          pip install beautifulsoup4  # Directly install the BeautifulSoup package
-
-      # Step 4: Run the Email Sender script
+          pip install beautifulsoup4 requests
+  
+        # Step 4: Run the Email Sender script
       - name: Run HackerNewEmail.py
         run: |
           python Automation_%26_WebScrapping/HackerNewEmail.py
