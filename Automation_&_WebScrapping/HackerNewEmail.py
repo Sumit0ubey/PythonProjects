@@ -1,6 +1,6 @@
-import requests # type: ignore
+import requests
 import smtplib
-from bs4 import BeautifulSoup # type: ignore
+from bs4 import BeautifulSoup
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import datetime as dt
