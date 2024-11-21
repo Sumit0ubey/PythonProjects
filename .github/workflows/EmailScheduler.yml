@@ -26,11 +26,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install beautifulsoup4 requests python-dotenv
 
-      # Step 4: Debug repository structure
-      - name: List repository files for debugging
-        run: |
-          ls -R
-
       # Step 5: Run HackerNewEmail.py
       - name: Run HackerNewEmail.py
         run: |
