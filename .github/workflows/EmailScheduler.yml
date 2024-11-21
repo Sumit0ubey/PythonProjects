@@ -2,8 +2,8 @@ name: Email Scheduler
 
 on:
   schedule:
-    - cron: '0 8 * * *'  # Run at 8:00 AM UTC daily
-  workflow_dispatch:  # Allow manual triggering
+    - cron: '30 2 * * *'  # Run at 82:30 AM UTC daily (8:00 AM in India)
+  workflow_dispatch:  # Allowing manual triggering
 
 jobs:
   run-email-sender:
