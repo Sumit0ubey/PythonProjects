@@ -12,7 +12,7 @@ load_dotenv()
 SERVER = 'smtp.gmail.com'
 PORT = 587
 FROM = getenv('FROMEMAIL')
-TO = getenv('RECIPIENTS').split(",")
+TO = getenv('TOEMAIL').split(",")
 PASS = getenv('PASSWORD')
 
 def extractNews(url: str) -> str:
