@@ -32,5 +32,5 @@ jobs:
           python "Automation_&_WebScrapping/HackerNewEmail.py"
         env:
           FROMEMAIL: ${{ secrets.FROMEMAIL }}
-          TOEMAIL: ${{ secrets.TOEMAIL }}
+          TOEMAIL: ${{ secrets.RECIPIENTS }}
           PASSWORD: ${{ secrets.PASSWORD }}
