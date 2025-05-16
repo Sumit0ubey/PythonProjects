@@ -4,6 +4,7 @@ from tkinter import ttk
 from tkinter.messagebox import showwarning, showinfo
 from PIL import ImageTk, Image
 from time import strftime
+import os
 
 
 class App(Tk):
@@ -14,7 +15,8 @@ class App(Tk):
         self.title('Hotel Management System | Project 9')
         self.configure(bg='white')
 
-        self.cafe_icon = ImageTk.PhotoImage(Image.open('cafe.jpg'))
+        image_path = os.path.join(os.getcwd(), 'cafe.jpg')
+        self.cafe_icon = ImageTk.PhotoImage(Image.open(image_path))
         self.logo = Label(self, image=self.cafe_icon, bg="white")
         self.logo.place(x=0, y=0)
 

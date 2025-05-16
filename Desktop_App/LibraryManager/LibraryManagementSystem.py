@@ -156,6 +156,7 @@ class App(Tk):
                 for got in gots:
                     self.data += f' \t- Book Name: {got[1]}\n'
                 self.book_data.insert(1.0, self.data)
+                self.book_data.config(state='disabled')
 
     def books_list(self):
 
@@ -226,11 +227,11 @@ class App(Tk):
                     booked_date = datetime.strptime(got[0], "%Y-%m-%d")
                     differenceInDays = datetime.now() - booked_date
                     difference = differenceInDays.days
-                    if difference >= 9:
-                        amount = 50 * (difference - 9)
+                    if difference > 14:
+                        amount = 10 * ((difference - 14)/7)
                         answer = askokcancel(title="Alert", message=f'You have to pay a fine of {amount} for late return', icon=WARNING)
                         if answer:
-                            data = f'upi://pay?pa=sumit2003dubey@ibl&pn=Library fee&am={amount}&tn=Fine for late return'
+                            data = f'upi://pay?pa=sumit2003dubey@ibl&pn=Library fee&am={amount}&tn=Fine of late return'
                             qrCode = make(data)
                             qrCode.show()
                         else:
