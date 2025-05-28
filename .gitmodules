@@ -1,6 +1,3 @@
-[submodule "API_App"]
-	path = API_App
-	url = https://github.com/Sumit0ubey/API_Development
 [submodule "Web_App/RIVORA"]
 	path = Web_App/RIVORA
 	url = https://github.com/Sumit0ubey/RIVORA-WebApp/
