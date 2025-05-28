@@ -4,3 +4,9 @@
 [submodule "Web_App/POST"]
 	path = Web_App/POST
 	url = https://github.com/Sumit0ubey/POST-WebApp
+[submodule "API/PostAPI"]
+	path = API/PostAPI
+	url = https://github.com/Sumit0ubey/PostAPP
+[submodule "API/EmailServiceAPI"]
+	path = API/EmailServiceAPI
+	url = https://github.com/Sumit0ubey/EmailServiceAPP
