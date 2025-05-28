@@ -4,3 +4,6 @@
 [submodule "Web_App/RIVORA"]
 	path = Web_App/RIVORA
 	url = https://github.com/Sumit0ubey/RIVORA-WebApp/
+[submodule "Web_App/POST"]
+	path = Web_App/POST
+	url = https://github.com/Sumit0ubey/POST-WebApp
